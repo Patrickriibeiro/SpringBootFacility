@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.SpringPRO.App.model.repository.DAO.ProdutoDAO;
 import br.com.SpringPRO.App.model.repository.jpa.ProdutoRepository;
+import br.com.SpringPRO.App.model.vo.Produto;
 
 @RestController
 @RequestMapping("/v1/cursoudemy/produtos")
@@ -28,36 +28,36 @@ public class ProdutorController {
 
 	@PostMapping("/novoproduto")
 	//@RequestMapping(method = {RequestMethod.POST,RequestMethod.PUT})
-	public ProdutoDAO novoProduto(@RequestParam(value = "nome", defaultValue = "vazio") String nome,
+	public Produto novoProduto(@RequestParam(value = "nome", defaultValue = "vazio") String nome,
 			@RequestParam("preco") Double preco,
 			@RequestParam(value = "desconto", defaultValue = "0", required = false) Double desconto) {
 		
-		ProdutoDAO produto = new ProdutoDAO(nome, preco, desconto);
+		Produto produto = new Produto(nome, preco, desconto);
 		produtoRepository.save(produto);
 
 		return produto;
 	}
 	
 	@GetMapping("/obtertodosprodutos") // Nesse metodo está retornando todos os produtos do banco de dados;
-	public Iterable<ProdutoDAO> obterProduto() {
+	public Iterable<Produto> obterProduto() {
 		return produtoRepository.findAll();
 	}
 	
 	@GetMapping("/pagina/{numeroPagina}/{qtdePagina}") // Pesquisa Paginada no banco;
-	public Iterable<ProdutoDAO> obterProdutosPorPaginas(@PathVariable int numeroPagina,@PathVariable int qtdePagina){
+	public Iterable<Produto> obterProdutosPorPaginas(@PathVariable int numeroPagina,@PathVariable int qtdePagina){
 		if(qtdePagina >=5) qtdePagina = 5;
 		Pageable page = PageRequest.of(numeroPagina, 2);	
 		return produtoRepository.findAll(page);
 	}
 	
 	@GetMapping("/obterprodutoporid/{id}")
-	public Optional<ProdutoDAO> obterProdutoPorId(@PathVariable int id){
+	public Optional<Produto> obterProdutoPorId(@PathVariable int id){
 		return produtoRepository.findById(id);
 		
 	}
 	
 	@PostMapping("/alterandoproduto")
-	public ProdutoDAO alterarProdutor(@Valid ProdutoDAO produto) {
+	public Produto alterarProdutor(@Valid Produto produto) {
 		produtoRepository.save(produto);
 		return produto;		
 	}
@@ -68,13 +68,13 @@ public class ProdutorController {
 	}
 	
 	@GetMapping("/nome/{partenome}")
-	public Iterable<ProdutoDAO> obterProdutoPorNome(@PathVariable String nome){
+	public Iterable<Produto> obterProdutoPorNome(@PathVariable String nome){
 		return produtoRepository.findByNomeContainingIgnoreCase(nome);
 	}
 	
 	@PostMapping("/novoprodutovalidacao") //@ResponseBody A anotação @ResponseBody informa a um controlador que o objeto retornado 
 	//é serializado automaticamente em JSON e passado de volta para o objeto HttpResponse .
-	public @ResponseBody ProdutoDAO novoProduto(@Valid ProdutoDAO produto) {
+	public @ResponseBody Produto novoProduto(@Valid Produto produto) {
 		produtoRepository.save(produto);
 
 		return produto;

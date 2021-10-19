@@ -1,4 +1,4 @@
-package br.com.SpringPRO.App.model.repository.DAO;
+package br.com.SpringPRO.App.model.vo;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "Produto") // ira criar uma tabela com esse nome;
-public class ProdutoDAO {
+public class Produto {
 		
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //utilizará como estratégia a geração AUTO_INCREMENT, ex : 1,2,3....
@@ -34,7 +34,7 @@ public class ProdutoDAO {
 	@Max(1) // valor maximo que pode ser inserido;
 	private Double desconto;
 	
-	public ProdutoDAO(String nome,double preco,double desconto) {
+	public Produto(String nome,double preco,double desconto) {
 		this.nome = nome;
 		this.preco = preco;
 		this.desconto = desconto;

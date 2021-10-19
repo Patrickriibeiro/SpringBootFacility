@@ -5,13 +5,13 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import br.com.SpringPRO.App.model.repository.DAO.ProdutoDAO;
+import br.com.SpringPRO.App.model.vo.Produto;
 
 @Repository
-public interface ProdutoRepository extends PagingAndSortingRepository<ProdutoDAO, Integer> {
+public interface ProdutoRepository extends PagingAndSortingRepository<Produto, Integer> {
 
 	// Seguir a conversões para o springboot("findBy","Containing"), executar essa metodo;
-	public Iterable<ProdutoDAO> findByNomeContainingIgnoreCase(String parteNome);
+	public Iterable<Produto> findByNomeContainingIgnoreCase(String parteNome);
  
 	/* Exemplos de convensão
   * findByNomeContaining
@@ -26,7 +26,7 @@ public interface ProdutoRepository extends PagingAndSortingRepository<ProdutoDAO
   * */
 
   @Query("Select p from Produto p Where p.nome Like %:nome%")	
-  public Iterable<ProdutoDAO> searchByNameLike(@Param("nome")String nome);
+  public Iterable<Produto> searchByNameLike(@Param("nome")String nome);
 
 }
 
